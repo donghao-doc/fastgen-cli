@@ -8,7 +8,7 @@ async function main() {
   
   try {
     // 提示用户输入项目名称
-    const answers = await inquirer.prompt([
+    const nameAnswer = await inquirer.prompt([
       {
         type: 'input',
         name: 'projectName',
@@ -25,16 +25,35 @@ async function main() {
       }
     ]);
 
-    const projectName = answers.projectName.trim();
+    const projectName = nameAnswer.projectName.trim();
     const projectPath = join(process.cwd(), projectName);
 
     // 检查项目目录是否存在
     if (existsSync(projectPath)) {
       console.log(chalk.red(`❌ 错误：项目 "${projectName}" 已存在于当前目录中`));
       process.exit(1);
-    } else {
-      console.log(chalk.green(`✅ 项目名称：${projectName}`));
     }
+
+    // 提示用户选择项目类型
+    const typeAnswer = await inquirer.prompt([
+      {
+        type: 'list',
+        name: 'projectType',
+        message: '请选择项目类型:',
+        choices: [
+          { name: 'PC', value: 'pc' },
+          { name: 'H5', value: 'h5' },
+          { name: '小程序', value: 'miniprogram' }
+        ]
+      }
+    ]);
+
+    // 输出最终选择结果
+    console.log('\n' + chalk.cyan('='.repeat(40)));
+    console.log(chalk.yellow('📋 项目配置确认：'));
+    console.log(chalk.green(`📁 项目名称：${projectName}`));
+    console.log(chalk.green(`🎯 项目类型：${typeAnswer.projectType === 'pc' ? 'PC' : typeAnswer.projectType === 'h5' ? 'H5' : '小程序'}`));
+    console.log(chalk.cyan('='.repeat(40)));
 
   } catch (error) {
     console.log(chalk.red('❌ 发生错误：'), error);
