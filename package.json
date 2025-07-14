@@ -7,10 +7,14 @@
     "fastgen": "bin/cli.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "node scripts/build.js"
   },
   "keywords": [],
   "author": "BarryDong",
   "license": "ISC",
-  "packageManager": "pnpm@10.12.4"
+  "packageManager": "pnpm@10.12.4",
+  "devDependencies": {
+    "esbuild": "^0.25.6"
+  }
 }
