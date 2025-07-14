@@ -48,11 +48,26 @@ async function main() {
       }
     ]);
 
+    // 提示用户选择技术栈
+    const techStackAnswer = await inquirer.prompt([
+      {
+        type: 'list',
+        name: 'techStack',
+        message: '请选择技术栈:',
+        choices: [
+          { name: 'Vue', value: 'vue' },
+          { name: 'React', value: 'react' },
+          { name: 'uni-app', value: 'uni-app' }
+        ]
+      }
+    ]);
+
     // 输出最终选择结果
     console.log('\n' + chalk.cyan('='.repeat(40)));
     console.log(chalk.yellow('📋 项目配置确认：'));
     console.log(chalk.green(`📁 项目名称：${projectName}`));
     console.log(chalk.green(`🎯 项目类型：${typeAnswer.projectType === 'pc' ? 'PC' : typeAnswer.projectType === 'h5' ? 'H5' : '小程序'}`));
+    console.log(chalk.green(`⚡ 技术栈：${techStackAnswer.techStack === 'vue' ? 'Vue' : techStackAnswer.techStack === 'react' ? 'React' : 'uni-app'}`));
     console.log(chalk.cyan('='.repeat(40)));
 
   } catch (error) {
