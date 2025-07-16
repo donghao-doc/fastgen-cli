@@ -16,7 +16,7 @@
   },
   "keywords": [
     "cli",
-    "code-generator", 
+    "code-generator",
     "template",
     "scaffolding",
     "fastgen",
@@ -46,6 +46,7 @@
   },
   "dependencies": {
     "chalk": "^5.4.1",
+    "download-git-repo": "^3.0.2",
     "inquirer": "^12.7.0"
   }
 }

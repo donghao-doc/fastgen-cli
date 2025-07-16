@@ -15,6 +15,7 @@ async function build() {
       format: 'cjs',
       sourcemap: false,
       write: false, // 先不写入，我们需要添加 shebang
+      external: ['electron'], // 排除 electron 依赖
     });
 
     // 获取构建结果

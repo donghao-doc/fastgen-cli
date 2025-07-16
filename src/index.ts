@@ -2,7 +2,22 @@ import inquirer from 'inquirer';
 import chalk from 'chalk';
 import { existsSync } from 'fs';
 import { join } from 'path';
+// @ts-ignore
+import download from 'download-git-repo';
 import { templates } from './templates';
+
+// 将 GitHub URL 转换为 download-git-repo 需要的格式
+function formatRepoUrl(repoUrl: string): string {
+  // 如果是完整的 GitHub URL，提取 owner/repo 部分
+  if (repoUrl.startsWith('https://github.com/')) {
+    const match = repoUrl.match(/https:\/\/github\.com\/([^\/]+\/[^\/]+)(\.git)?/);
+    if (match) {
+      return match[1].replace('.git', '');
+    }
+  }
+  // 如果已经是 owner/repo 格式，直接返回
+  return repoUrl;
+}
 
 async function main() {
   console.log(chalk.blue('🚀 欢迎使用 FastGen！'));
@@ -113,6 +128,24 @@ async function main() {
     console.log(chalk.green(`🎨 项目模板：${selectedTemplate.name}`));
     console.log(chalk.gray(`   ${selectedTemplate.description}`));
     console.log(chalk.cyan('='.repeat(50)));
+
+    // 开始下载模板
+    console.log('\n' + chalk.blue('🔽 正在下载项目模板...'));
+    
+    const formattedRepo = formatRepoUrl(selectedTemplate.repo);
+    
+    await new Promise<void>((resolve, reject) => {
+      download(formattedRepo, projectPath, { clone: false }, (err: Error | null) => {
+        if (err) {
+          console.log(chalk.red(`❌ 下载失败：${err.message}`));
+          reject(err);
+        } else {
+          console.log(chalk.green(`🎉 项目模板下载完成，你可以开始开发了！`));
+          console.log(chalk.green(`   cd ${projectName}`));
+          resolve();
+        }
+      });
+    });
 
   } catch (error) {
     console.log(chalk.red('❌ 发生错误：'), error);
