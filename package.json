@@ -1,6 +1,6 @@
 {
   "name": "fastgen",
-  "version": "0.0.1",
+  "version": "0.0.7",
   "description": "FastGen is a tool for generating code quickly and easily.",
   "main": "bin/cli.js",
   "bin": {
