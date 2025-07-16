@@ -39,21 +39,3 @@ export const templates = {
     ]
   }
 };
-
-export const packageManagers = {
-  npm: {
-    name: 'npm',
-    installCommand: 'npm install',
-    runCommand: 'npm run'
-  },
-  yarn: {
-    name: 'yarn',
-    installCommand: 'yarn install',
-    runCommand: 'yarn'
-  },
-  pnpm: {
-    name: 'pnpm',
-    installCommand: 'pnpm install',
-    runCommand: 'pnpm'
-  }
-};

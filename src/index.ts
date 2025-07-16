@@ -63,21 +63,6 @@ async function main() {
       }
     ]);
 
-    // 提示用户选择包管理器
-    const packageManagerAnswer = await inquirer.prompt([
-      {
-        type: 'list',
-        name: 'packageManager',
-        message: '请选择包管理器:',
-        choices: [
-          { name: 'npm', value: 'npm' },
-          { name: 'yarn', value: 'yarn' },
-          { name: 'pnpm', value: 'pnpm' }
-        ],
-        default: 'pnpm'
-      }
-    ]);
-
     // 映射技术栈名称
     const mapTechStack = (techStack: string) => {
       return techStack === 'uni-app' ? 'uniapp' : techStack;
@@ -125,7 +110,6 @@ async function main() {
     console.log(chalk.green(`📁 项目名称：${projectName}`));
     console.log(chalk.green(`🎯 项目类型：${typeAnswer.projectType === 'pc' ? '管理后台' : typeAnswer.projectType === 'h5' ? 'H5' : '小程序'}`));
     console.log(chalk.green(`⚡ 技术栈：${techStackAnswer.techStack === 'vue' ? 'Vue' : techStackAnswer.techStack === 'react' ? 'React' : 'uni-app'}`));
-    console.log(chalk.green(`📦 包管理器：${packageManagerAnswer.packageManager}`));
     console.log(chalk.green(`🎨 项目模板：${selectedTemplate.name}`));
     console.log(chalk.gray(`   ${selectedTemplate.description}`));
     console.log(chalk.cyan('='.repeat(50)));
