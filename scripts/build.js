@@ -23,11 +23,19 @@ async function build() {
     // 添加 shebang
     const finalCode = `#!/usr/bin/env node\n\n${outputText}`;
     
+    // 确保 bin 目录存在
+    const binDir = path.join(__dirname, '../bin');
+    if (!fs.existsSync(binDir)) {
+      fs.mkdirSync(binDir, { recursive: true });
+      console.log('📁 创建 bin 目录');
+    }
+    
     // 写入文件
-    fs.writeFileSync(path.join(__dirname, '../bin/cli.js'), finalCode);
+    const outputPath = path.join(binDir, 'cli.js');
+    fs.writeFileSync(outputPath, finalCode);
     
     console.log('✅ 构建成功！');
-    console.log('📦 输出文件：bin/cli.js');
+    console.log('📦 输出文件：' + path.relative(process.cwd(), outputPath));
     
   } catch (error) {
     console.error('❌ 构建失败:', error);
