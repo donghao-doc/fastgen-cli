@@ -1,6 +1,6 @@
 {
   "name": "fastgen",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "FastGen is a tool for generating code quickly and easily.",
   "main": "bin/cli.js",
   "bin": {
@@ -46,6 +46,7 @@
   },
   "dependencies": {
     "chalk": "^5.4.1",
+    "commander": "^14.0.0",
     "download-git-repo": "^3.0.2",
     "inquirer": "^12.7.0"
   }

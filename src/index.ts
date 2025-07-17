@@ -1,10 +1,15 @@
+import { Command } from 'commander';
 import inquirer from 'inquirer';
 import chalk from 'chalk';
-import { existsSync } from 'fs';
+import { existsSync, readFileSync } from 'fs';
 import { join } from 'path';
 // @ts-ignore
 import download from 'download-git-repo';
 import { templates } from './templates';
+
+// 读取 package.json 信息
+const packageJsonPath = join(__dirname, '../package.json');
+const packageInfo = JSON.parse(readFileSync(packageJsonPath, 'utf8'));
 
 // 将 GitHub URL 转换为 download-git-repo 需要的格式
 function formatRepoUrl(repoUrl: string): string {
@@ -19,7 +24,7 @@ function formatRepoUrl(repoUrl: string): string {
   return repoUrl;
 }
 
-async function main() {
+async function createProject() {
   console.log(chalk.blue('🚀 欢迎使用 FastGen！'));
   
   try {
@@ -153,4 +158,16 @@ async function main() {
   }
 }
 
-main();
+// 创建命令行程序
+const program = new Command();
+
+program
+  .name(packageInfo.name)
+  .description(packageInfo.description)
+  .version(packageInfo.version)
+  .action(async () => {
+    await createProject();
+  });
+
+// 解析命令行参数
+program.parse();
