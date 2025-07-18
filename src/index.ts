@@ -11,6 +11,11 @@ import { templates } from './templates';
 const packageJsonPath = join(__dirname, '../package.json');
 const packageInfo = JSON.parse(readFileSync(packageJsonPath, 'utf8'));
 
+// 处理 SIGINT (Ctrl+C) 信号
+process.on('SIGINT', () => {
+  process.exit(0);
+});
+
 // 将 GitHub URL 转换为 download-git-repo 需要的格式
 function formatRepoUrl(repoUrl: string): string {
   // 如果是完整的 GitHub URL，提取 owner/repo 部分
@@ -152,9 +157,16 @@ async function createProject() {
       });
     });
 
-  } catch (error) {
-    console.log(chalk.red('❌ 发生错误：'), error);
-    process.exit(1);
+  } catch (error: any) {
+    // 检查是否为用户主动退出
+    if (error.name === 'ExitPromptError' || 
+        error.message?.includes('User force closed the prompt') ||
+        error.message?.includes('SIGINT')) {
+      process.exit(0); // 正常退出，而不是错误退出
+    } else {
+      console.log(chalk.red('❌ 发生错误：'), error);
+      process.exit(1);
+    }
   }
 }
 
